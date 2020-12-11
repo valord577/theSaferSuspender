@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <title></title>
+
+  <link type="text/css" href="css/popup.css" rel="stylesheet">
+</head>
+
+<body>
+<div style="padding: 2px 15px;">
+  <p>Automatically suspend tabs after:</p>
+  <p>
+    <label>
+      <select id="timeSelect">
+        <option value="45" selected> default </option>
+        <optgroup label="minutes">
+          <option value="1"> 1 min </option>
+          <option value="5"> 5 mins </option>
+          <option value="10"> 10 mins </option>
+          <option value="15"> 15 mins </option>
+          <option value="30"> 30 mins </option>
+          <option value="45"> 45 mins </option>
+        </optgroup>
+        <optgroup label="hours">
+          <option value="60"> 1 hour </option>
+          <option value="120"> 2 hours </option>
+          <option value="240"> 4 hours </option>
+          <option value="360"> 6 hours </option>
+        </optgroup>
+      </select>
+    </label>
+  </p>
+</div>
+
+<div style="padding: 2px 15px;">
+  <p>
+    <span>Never suspend tabs with the following list:</span>
+    <br>
+    <i> - regular expressions: <q><b><code>/^https:.*google\.com/</code></b></q></i>
+  </p>
+  <p>
+    <label>
+      <textarea id="passList" name="textarea" wrap="soft" autocomplete="off"></textarea>
+    </label>
+  </p>
+  <p><i><small id="testPassList">Test Pass List</small></i></p>
+</div>
+
+<script type="text/javascript" src="js/popup.js"></script>
+</body>
+</html>
