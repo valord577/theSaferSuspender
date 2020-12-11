@@ -12,14 +12,17 @@ Once installed and enabled, this extension will automatically **suspend** tabs t
 
 ## Overview
 
-| Browser | Version |  Branch   | Official Store |
-| :-----: | :-----: | :-------: | :------------: |
-| Firefox | -       | v-Firefox | -              |
-| Edge    | -       | -         | -              |
-| Chrome  | -       | -         | -              |
+| Browser | Version |          Branch        | Official Store |
+| :-----: | :-----: | :--------------------: | :------------: |
+| Firefox | -       | [v-firefox][v-firefox] | -              |
+| Edge    | -       | -                      | -              |
+| Chrome  | -       | -                      | -              |
 
 ## License
 
 Copyright (c) 2020 Valord577.
 
 See the [LICENSE](LICENSE) for Rights and Limitations (GPLv3).
+
+
+[v-firefox]: https://github.com/valord577/theSaferSuspender/tree/v-firefox
