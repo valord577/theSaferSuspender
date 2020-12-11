@@ -12,9 +12,9 @@ Once installed and enabled, this extension will automatically **suspend** tabs t
 
 ## Overview
 
-| Browser | Official Store |
-| :-----: | :------------: |
-| Firefox | -              |
+| Browser |      Official Store      |
+| :-----: | :----------------------: |
+| Firefox | [Add-ons Store][Add-ons] |
 
 ## Changes
 
@@ -25,3 +25,6 @@ See the [CHANGES](CHANGE.md) for changes.
 Copyright (c) 2020 Valord577.
 
 See the [LICENSE](LICENSE) for Rights and Limitations (GPLv3).
+
+
+[Add-ons]: https://addons.mozilla.org/en-US/firefox/addon/the-safer-suspender/
