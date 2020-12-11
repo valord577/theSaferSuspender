@@ -45,7 +45,7 @@ function suspend() {
                             continue;
                         }
 
-                        if (now - tab.lastAccessed > value.time.mins * 60_000) {
+                        if (now - tab.lastAccessed > value.time.mins * 60000) {
                             // do suspend
                             let _url = '/suspended.html' +
                                 '?ttl=' + tab.title +
