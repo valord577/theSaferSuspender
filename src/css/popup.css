@@ -33,6 +33,7 @@ body {
   border-radius: 4px;
   box-sizing: border-box;
   padding: 8px 15px;
+  resize: vertical;
 }
 #passList:hover {
   border: 1px solid #cac6c6;
