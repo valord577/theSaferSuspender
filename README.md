@@ -14,7 +14,7 @@ Once installed and enabled, this extension will automatically **suspend** tabs t
 
 | Browser |          Branch        |       Official Store     | Version |
 | :-----: | :--------------------: | :----------------------: | :------ |
-| Firefox | [v-firefox][v-firefox] | [Add-ons Store][Add-ons] | v1.1    |
+| Firefox | [v-firefox][v-firefox] | [Add-ons Store][Add-ons] | v1.2    |
 | Edge    | -                      | -                        | -       |
 | Chrome  | -                      | -                        | -       |
 
