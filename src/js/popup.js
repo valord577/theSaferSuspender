@@ -15,7 +15,17 @@ document
                 .sync
                 .get()
                 .then((value) => {
-                    /* see `storage.js` */
+                    /*
+                     * {
+                     *   "time": {
+                     *     "mins": 45,  // time(s) for `auto` suspend tabs
+                     *     "index": 0
+                     *   },
+                     *
+                     *   "pass": []  // Pass list for `never` suspend tabs
+                     * }
+                     */
+
                     if (value.time) {
                         // set `#timeSelect`
                         timeSelect.selectedIndex = value.time.index;

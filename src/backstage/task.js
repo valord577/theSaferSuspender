@@ -12,8 +12,18 @@ function suspend() {
         .storage
         .sync
         .get()
-        /* see `storage.js` */
         .then((value) => {
+
+            /*
+             * {
+             *   "time": {
+             *     "mins": 45,  // time(s) for `auto` suspend tabs
+             *     "index": 0
+             *   },
+             *
+             *   "pass": []  // Pass list for `never` suspend tabs
+             * }
+             */
 
             let now = (new Date()).getTime();
 
@@ -45,7 +55,13 @@ function suspend() {
                             continue;
                         }
 
-                        if (now - tab.lastAccessed > value.time.mins * 60000) {
+                        // check last accessed
+                        let mins = 45;
+                        if (value.time && value.time.mins) {
+                            mins = value.time.mins;
+                        }
+
+                        if (now - tab.lastAccessed > mins * 60000) {
                             // do suspend
                             let _url = '/suspended.html' +
                                 '?ttl=' + tab.title +

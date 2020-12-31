@@ -21,14 +21,12 @@
   "permissions": [
     "tabs",
     "alarms",
-    "storage",
-    "unlimitedStorage"
+    "storage"
   ],
 
   "background": {
       "scripts": [
-        "backstage/task.js",
-        "backstage/storage.js"
+        "backstage/task.js"
       ]
   },
 
