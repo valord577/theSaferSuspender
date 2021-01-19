@@ -8,15 +8,19 @@ Once installed and enabled, this extension will automatically **suspend** tabs t
 
 ## Ideas
 
-* @[The Great Suspender](https://github.com/greatsuspender/thegreatsuspender)
+* [The Great Suspender](https://github.com/greatsuspender/thegreatsuspender)
+
+## Reason
+
+* [The issue of The Great Suspender](https://github.com/greatsuspender/thegreatsuspender/issues/1263)
 
 ## Overview
 
-| Browser |          Branch        |       Official Store     | Version |
-| :-----: | :--------------------: | :----------------------: | :------ |
-| Firefox | [v-firefox][v-firefox] | [Add-ons Store][Add-ons] | v1.2    |
-| Edge    | -                      | -                        | -       |
-| Chrome  | -                      | -                        | -       |
+| Browser |          Branch        |               Official Store             | Version |
+| :-----: | :--------------------: | :--------------------------------------: | :------ |
+| Firefox | [v-firefox][v-firefox] | [Firefox Add-ons Store][Firefox Add-ons] | v1.2    |
+| Edge    | [v-edge][v-edge]       | [Edge Add-ons Store][Edge Add-ons]       | v1.0    |
+| Chrome  | -                      | -                                        | -       |
 
 ## License
 
@@ -26,4 +30,7 @@ See the [LICENSE](LICENSE) for Rights and Limitations (GPLv3).
 
 
 [v-firefox]: https://github.com/valord577/theSaferSuspender/tree/v-firefox
-[Add-ons]: https://addons.mozilla.org/en-US/firefox/addon/the-safer-suspender/
+[Firefox Add-ons]: https://addons.mozilla.org/en-US/firefox/addon/the-safer-suspender/
+
+[v-edge]: https://github.com/valord577/theSaferSuspender/tree/v-edge
+[Edge Add-ons]: <Pending>
