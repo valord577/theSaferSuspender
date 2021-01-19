@@ -8,13 +8,17 @@ Once installed and enabled, this extension will automatically **suspend** tabs t
 
 ## Ideas
 
-* @[The Great Suspender](https://github.com/greatsuspender/thegreatsuspender)
+* [The Great Suspender](https://github.com/greatsuspender/thegreatsuspender)
+
+## Reason
+
+* [The issue of The Great Suspender](https://github.com/greatsuspender/thegreatsuspender/issues/1263)
 
 ## Overview
 
-| Browser |      Official Store      |
-| :-----: | :----------------------: |
-| Firefox | [Add-ons Store][Add-ons] |
+| Browser |           Official Store           |
+| :-----: | :--------------------------------: |
+| Edge    | [Edge Add-ons Store][Edge Add-ons] |
 
 ## Changes
 
@@ -27,4 +31,4 @@ Copyright (c) 2020 Valord577.
 See the [LICENSE](LICENSE) for Rights and Limitations (GPLv3).
 
 
-[Add-ons]: https://addons.mozilla.org/en-US/firefox/addon/the-safer-suspender/
+[Edge Add-ons]: <Pending>

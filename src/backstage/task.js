@@ -2,66 +2,132 @@
  * @author valor.
  */
 
-let jobName = 'global';
-browser.alarms.create(jobName, { periodInMinutes: 1 });
-browser.alarms.onAlarm.addListener(suspend);
+/* -- do something when browser start ----------------------- */
 
-function suspend() {
+chrome.tabs.query({
+    // query all tabs
+}, (tabs) => {
 
-    browser
-        .storage
-        .sync
-        .get()
-        /* see `storage.js` */
-        .then((value) => {
+    // create alarm
+    chrome.storage.sync.get((value) => {
+        for (let tab of tabs) {
+            setAlarm(tab, value.mins);
+        }
+    });
+});
 
-            let now = (new Date()).getTime();
+function setAlarm(tab, mins) {
+    // exclude `chrome.tabs.TAB_ID_NONE`
+    if (!tab.id || tab.id < 0) {
+        return;
+    }
 
-            browser
-                .tabs
-                .query({
-                    url: ["http://*/*", "https://*/*"],
-                })
-                .then((tabs) => {
+    // default - do suspend after 45 mins
+    let _mins = 45;
+    if (mins) {
+        _mins = mins;
+    }
 
-                    for (let tab of tabs) {
+    // use tab.id as alarm's name
+    chrome.alarms.create(`${tab.id}`, {delayInMinutes: _mins});
+}
 
-                        let skip = false;
+/* -- alarm's action ---------------------------------------- */
 
-                        // check pass list
-                        if (value.pass && value.pass.length > 0) {
-                            for (let filter of value.pass) {
-                                let result = checkRegExp(tab.url, filter.substring(1, filter.length - 1));
-                                if (result) {
-                                    // hit pass list
-                                    skip = true;
-                                    break;
-                                }
-                            }
-                        }
+// fired when an alarm has elapsed
+chrome.alarms.onAlarm.addListener(doSuspend);
 
-                        // hit pass list
-                        if (skip) {
-                            continue;
-                        }
+function doSuspend(alarm) {
+    if (!alarm.name) {
+        // no tab.id
+        return;
+    }
+    let tabId = Number(alarm.name);
 
-                        if (now - tab.lastAccessed > value.time.mins * 60000) {
-                            // do suspend
-                            let _url = '/suspended.html' +
-                                '?ttl=' + tab.title +
-                                '&uri=' + tab.url;
-                            browser.tabs.update(tab.id, { url: _url });
+    chrome.tabs.get(tabId, (tab) => {
+        if (!tab) {
+            return;
+        }
+        // reset alarm
+        chrome.storage.sync.get((value) => {
+            setAlarm(tab, value.mins);
+        });
+
+        if (tab.highlighted) {
+            // exclude highlighted tab
+            return;
+        }
+        if (tab.audible) {
+            // exclude audible tab
+            return;
+        }
+        if (!tab.url) {
+            // exclude the tab of empty url
+            return;
+        }
+        if (tab.url.startsWith("edge://")) {
+            // exclude internal tab
+            return;
+        }
+
+        // do suspend
+        if (tab.url.startsWith("http://")
+            || tab.url.startsWith("https://")) {
+
+            chrome.storage.sync.get((value) => {
+                let skip = false;
+
+                // check pass rules
+                if (value.rules) {
+                    for (let rule of value.rules) {
+                        let res = checkRegExp(tab.url, rule.substring(1, rule.length - 1));
+                        if (res) {
+                            // hit pass rule
+                            skip = true;
+                            break;
                         }
                     }
+                }
+
+                if (skip) {
+                    // no suspend
+                    return;
+                }
+
+                // Storing tab's data
+                let ttl = (tab.title) ? tab.title : '';
+                let url = (tab.url) ? tab.url : '';
+                let icon = (tab.favIconUrl) ? tab.favIconUrl : '';
+
+                chrome.storage.local.set({
+                    [`${tab.id}`]: {
+                        ttl: ttl,
+                        url: url,
+                        icon: icon,
+                    },
+                }, () => {
+                    // update tab
+                    let toUrl = '/suspended.html' +
+                        '?flag=' + tab.id;
+                    chrome.tabs.update(tab.id, {url: toUrl}, (tab) => {});
                 });
-        });
+            });
+        }
+    });
 }
 
-function checkRegExp(str, filter) {
-    try {
-        let reg = new RegExp(filter);
-        return reg.test(str);
-    } catch (e) {
-        return false;
-    }
-}
+/* -- manage alarm(s) --------------------------------------- */
+
+chrome.tabs.onCreated.addListener((tab) => {
+    // create alarm
+    chrome.storage.sync.get((value) => {
+        setAlarm(tab, value.mins);
+    });
+});
+
+chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
+    // remove alarm
+    chrome.alarms.clear(`${tabId}`, (wasCleared) => {
+        // pass
+    });
+});

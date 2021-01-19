@@ -1,20 +1,16 @@
 {
   "manifest_version": 2,
 
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "valord577@gmail.com",
-      "strict_min_version": "79.0"
-    }
-  },
+  "minimum_chrome_version": "79.0",
 
   "author": "valord577",
 
   "name": "The Safer Suspender",
   "description": "Release browser resources by suspending the tabs you aren't using",
-  "version": "1.1",
+  "version": "1.0",
   "icons": {
-    "128": "icons/ic_suspender_707070_128x128.svg"
+    "48": "icons/ic_suspender_707070_48x48.png",
+    "128": "icons/ic_suspender_707070_128x128.png"
   },
   "homepage_url": "https://github.com/valord577/theSaferSuspender",
 
@@ -27,17 +23,17 @@
 
   "background": {
       "scripts": [
-        "backstage/task.js",
-        "backstage/storage.js"
+        "utils/utils.js",
+        "backstage/task.js"
       ]
   },
 
   "web_accessible_resources": ["suspended.html"],
 
   "browser_action": {
-    "browser_style": false,
     "default_icon": {
-      "128": "icons/ic_suspender_707070_128x128.svg"
+      "48": "icons/ic_suspender_707070_48x48.png",
+      "128": "icons/ic_suspender_707070_128x128.png"
     },
     "default_title": "The Safer Suspender",
     "default_popup": "popup.html"
