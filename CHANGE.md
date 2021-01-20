@@ -2,6 +2,12 @@
 
 All notable changes for **Firefox** are documented in this file.
 
+## v1.4
+
+#### fixed
+
+- Can not save Pass Rules.
+
 ## v1.3
 
 #### changed
