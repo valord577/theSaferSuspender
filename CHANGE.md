@@ -33,6 +33,6 @@ All notable changes for **Firefox** are documented in this file.
 
 ## v1.0
 
-#### Added
+#### added
 
 - Release first version.
