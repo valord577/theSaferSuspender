@@ -36,16 +36,15 @@ timeSelect.addEventListener('change', () => {
 });
 
 rules.addEventListener('blur', () => {
-    if (!rules.value) {
-        return;
-    }
 
-    let _list = rules.value.split(/\r\n|\r|\n/);
-    if (_list) {
-        browser.storage.sync.set({
-            rules: _list
-        });
+    let _list = [];
+
+    if (rules.value) {
+        _list = rules.value.split(/\r\n|\r|\n/);
     }
+    browser.storage.sync.set({
+        rules: _list
+    });
 });
 
 testRules.addEventListener('click', () => {
