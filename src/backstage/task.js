@@ -2,82 +2,130 @@
  * @author valor.
  */
 
-let jobName = 'global';
-browser.alarms.create(jobName, { periodInMinutes: 1 });
-browser.alarms.onAlarm.addListener(suspend);
+/* -- do something when browser start ----------------------- */
 
-function suspend() {
+browser.tabs.query({
+    // query all tabs
+}).then((tabs) => {
 
-    browser
-        .storage
-        .sync
-        .get()
-        .then((value) => {
+    // create alarm
+    browser.storage.sync.get().then((value) => {
+        for (let tab of tabs) {
+            setAlarm(tab, value.mins);
+        }
+    });
+});
 
-            /*
-             * {
-             *   "time": {
-             *     "mins": 45,  // time(s) for `auto` suspend tabs
-             *     "index": 0
-             *   },
-             *
-             *   "pass": []  // Pass list for `never` suspend tabs
-             * }
-             */
+function setAlarm(tab, mins) {
+    // exclude `browser.tabs.TAB_ID_NONE`
+    if (!tab.id || tab.id < 0) {
+        return;
+    }
 
-            let now = (new Date()).getTime();
+    // default - do suspend after 45 mins
+    let _mins = Number(mins);
+    if (!_mins) {
+        _mins = 45;
+    }
 
-            browser
-                .tabs
-                .query({
-                    url: ["http://*/*", "https://*/*"],
-                })
-                .then((tabs) => {
+    // use tab.id as alarm's name
+    browser.alarms.create(`${tab.id}`, {delayInMinutes: _mins});
+}
 
-                    for (let tab of tabs) {
+/* -- alarm's action ---------------------------------------- */
 
-                        let skip = false;
+// fired when an alarm has elapsed
+browser.alarms.onAlarm.addListener(doSuspend);
 
-                        // check pass list
-                        if (value.pass && value.pass.length > 0) {
-                            for (let filter of value.pass) {
-                                let result = checkRegExp(tab.url, filter.substring(1, filter.length - 1));
-                                if (result) {
-                                    // hit pass list
-                                    skip = true;
-                                    break;
-                                }
-                            }
-                        }
+function doSuspend(alarm) {
+    if (!alarm.name) {
+        // no tab.id
+        return;
+    }
+    let tabId = Number(alarm.name);
 
-                        // hit pass list
-                        if (skip) {
-                            continue;
-                        }
+    browser.tabs.get(tabId).then((tab) => {
+        if (!tab) {
+            return;
+        }
+        // reset alarm
+        browser.storage.sync.get().then((value => {
+            setAlarm(tab, value.mins);
+        }));
 
-                        // check last accessed
-                        let mins = 45;
-                        if (value.time && value.time.mins) {
-                            mins = value.time.mins;
-                        }
+        if (tab.highlighted) {
+            // exclude highlighted tab
+            return;
+        }
+        if (tab.audible) {
+            // exclude audible tab
+            return;
+        }
+        if (!tab.url) {
+            // exclude the tab of empty url
+            return;
+        }
+        if (tab.url.startsWith("about:")) {
+            // exclude internal tab
+            return;
+        }
 
-                        if (now - tab.lastAccessed > mins * 60000) {
-                            // do suspend
-                            let _url = '/suspended.html' +
-                                '?ttl=' + tab.title +
-                                '&uri=' + tab.url;
-                            browser.tabs.update(tab.id, { url: _url });
+        // do suspend
+        if (tab.url.startsWith("http://")
+            || tab.url.startsWith("https://")) {
+
+            browser.storage.sync.get().then((value => {
+                let skip = false;
+
+                // check pass rules
+                if (value.rules) {
+                    for (let rule of value.rules) {
+                        let res = checkRegExp(tab.url, rule.substring(1, rule.length - 1));
+                        if (res) {
+                            // hit pass rule
+                            skip = true;
+                            break;
                         }
                     }
+                }
+
+                if (skip) {
+                    // no suspend
+                    return;
+                }
+
+                // Storing tab's data
+                let ttl = (tab.title) ? tab.title : '';
+                let url = (tab.url) ? tab.url : '';
+                let icon = (tab.favIconUrl) ? tab.favIconUrl : '';
+
+                browser.storage.local.set({
+                    [`${tab.id}`]: {
+                        ttl: ttl,
+                        url: url,
+                        icon: icon,
+                    },
+                }).then(() => {
+                    // update tab
+                    let toUrl = '/suspended.html' +
+                        '?flag=' + tab.id;
+                    browser.tabs.update(tab.id, {url: toUrl});
                 });
-        });
+            }));
+        }
+    });
 }
 
-function checkRegExp(str, filter) {
-    try {
-        let reg = new RegExp(filter);
-        return reg.test(str);
-    } catch (e) {
-        return false;
-    }
-}
+/* -- manage alarm(s) --------------------------------------- */
+
+browser.tabs.onCreated.addListener((tab) => {
+    // create alarm
+    browser.storage.sync.get().then((value => {
+        setAlarm(tab, value.mins);
+    }));
+});
+
+browser.tabs.onRemoved.addListener((tabId, removeInfo) => {
+    // remove alarm
+    browser.alarms.clear(`${tabId}`);
+});

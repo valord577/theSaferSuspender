@@ -2,6 +2,13 @@
 
 All notable changes for **Firefox** are documented in this file.
 
+## v1.3
+
+#### changed
+
+- Optimize user interaction(UI).
+- Use new suspend logic to improve performance.
+
 ## v1.2
 
 #### fixed

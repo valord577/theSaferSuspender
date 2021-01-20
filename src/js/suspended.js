@@ -2,22 +2,59 @@
  * @author valor.
  */
 
+let icon = document.getElementById('icon');
 let title = document.getElementById('title');
+
 let ttl = document.getElementById('ttl');
 let url = document.getElementById('url');
 let addOn = document.getElementById('addOn');
 
-document
-    .addEventListener(
-        'DOMContentLoaded',
-        function () {
-            // set title, url
-            let query = getQueryVariable();
-            title.innerText = decodeURIComponent(query.ttl);
-            ttl.innerText = decodeURIComponent(query.ttl);
-            url.innerText = query.uri;
+let _ttl_limit = 64;
+let _url_limit = 128;
+
+document.addEventListener('DOMContentLoaded', () => {
+    let params = getQueryVariable();
+    if (!params.flag) {
+        return;
+    }
+    // stored tab's id
+    let key = params.flag;
+
+    browser.storage.local.get(`${key}`).then((res) => {
+        let _ttl = 'Suspended';
+        let _url = '';
+        let _icon = '/icons/ic_suspender_707070_128x128.svg';
+
+        if (res && res[key]) {
+            if (res[key].ttl) {
+                _ttl = decodeURIComponent(res[key].ttl);
+            }
+            if (res[key].url) {
+                _url = res[key].url;
+            }
+            if (res[key].icon) {
+                _icon = res[key].icon;
+            }
         }
-    );
+
+        icon.href = _icon;
+        title.innerText = _ttl;
+
+        if (_ttl.length > _ttl_limit) {
+            ttl.setAttribute('title', _ttl);
+            ttl.innerText = cutString(_ttl, _ttl_limit);
+        } else {
+            ttl.innerText = _ttl;
+        }
+
+        if (_url.length > _url_limit) {
+            url.setAttribute('title', _url)
+            url.innerText = cutString(_url, _url_limit);
+        } else {
+            url.innerText = _url;
+        }
+    });
+});
 
 function getQueryVariable() {
 
@@ -45,19 +82,18 @@ function getQueryVariable() {
 
         let key = pair.substring(0, pos);
         let value = pair.substring(pos + 1);
+
         params[key] = value;
     }
 
     return params;
 }
 
-url.addEventListener('click',
-    function () {
-        window.history.back();
-    });
+url.addEventListener('click', () => {
+    window.history.back();
+});
 
-addOn.addEventListener('click',
-    function () {
-        let manifest = browser.runtime.getManifest();
-        window.open(manifest.homepage_url, '_blank');
-    });
+addOn.addEventListener('click', () => {
+    let manifest = browser.runtime.getManifest();
+    window.open(manifest.homepage_url, '_blank');
+});
