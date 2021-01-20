@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 timeSelect.addEventListener('change', () => {
     let _index = timeSelect.selectedIndex;
-    let _value = timeSelect.options[index].value;
+    let _value = timeSelect.options[_index].value;
 
     chrome.storage.sync.set({
         index: _index,
@@ -36,16 +36,14 @@ timeSelect.addEventListener('change', () => {
 });
 
 rules.addEventListener('blur', () => {
-    if (!rules.value) {
-        return;
-    }
+    let _list = [];
 
-    let _list = rules.value.split(/\r\n|\r|\n/);
-    if (_list) {
-        chrome.storage.sync.set({
-            rules: _list
-        });
+    if (rules.value) {
+        _list = rules.value.split(/\r\n|\r|\n/);
     }
+    browser.storage.sync.set({
+        rules: _list
+    });
 });
 
 testRules.addEventListener('click', () => {

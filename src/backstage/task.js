@@ -23,9 +23,9 @@ function setAlarm(tab, mins) {
     }
 
     // default - do suspend after 45 mins
-    let _mins = 45;
-    if (mins) {
-        _mins = mins;
+    let _mins = Number(mins);
+    if (!_mins) {
+        _mins = 45;
     }
 
     // use tab.id as alarm's name
