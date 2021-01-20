@@ -16,9 +16,9 @@ Once installed and enabled, this extension will automatically **suspend** tabs t
 
 ## Overview
 
-| Browser |           Official Store           |
-| :-----: | :--------------------------------: |
-| Edge    | [Edge Add-ons Store][Edge Add-ons] |
+| Browser |            Official Store            |
+| :-----: | :----------------------------------: |
+| Chrome  | [Chrome Web Store][Chrome Web Store] |
 
 ## Changes
 
@@ -31,4 +31,4 @@ Copyright (c) 2020 Valord577.
 See the [LICENSE](LICENSE) for Rights and Limitations (GPLv3).
 
 
-[Edge Add-ons]: <Pending>
+[Chrome Web Store]: <Pending>

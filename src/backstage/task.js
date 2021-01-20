@@ -65,7 +65,7 @@ function doSuspend(alarm) {
             // exclude the tab of empty url
             return;
         }
-        if (tab.url.startsWith("edge://")) {
+        if (tab.url.startsWith("chrome://")) {
             // exclude internal tab
             return;
         }
