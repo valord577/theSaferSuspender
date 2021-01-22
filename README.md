@@ -31,4 +31,4 @@ Copyright (c) 2020 Valord577.
 See the [LICENSE](LICENSE) for Rights and Limitations (GPLv3).
 
 
-[Chrome Web Store]: <Pending>
+[Chrome Web Store]: https://chrome.google.com/webstore/detail/the-safer-suspender/bghakdgdhifpflgmpknjkekcbomcfnij
