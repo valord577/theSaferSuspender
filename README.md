@@ -31,4 +31,4 @@ Copyright (c) 2020 Valord577.
 See the [LICENSE](LICENSE) for Rights and Limitations (GPLv3).
 
 
-[Edge Add-ons]: <Pending>
+[Edge Add-ons]: https://microsoftedge.microsoft.com/addons/detail/ldhgciljacidbkapbbacienjgldmokoo

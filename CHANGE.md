@@ -2,6 +2,12 @@
 
 All notable changes for **Edge** are documented in this file.
 
+## v1.2
+
+#### fixed
+
+- Can not save regex.
+
 ## v1.1
 
 #### fixed

@@ -41,7 +41,7 @@ rules.addEventListener('blur', () => {
     if (rules.value) {
         _list = rules.value.split(/\r\n|\r|\n/);
     }
-    browser.storage.sync.set({
+    chrome.storage.sync.set({
         rules: _list
     });
 });
