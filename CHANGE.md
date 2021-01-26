@@ -2,6 +2,12 @@
 
 All notable changes for **Firefox** are documented in this file.
 
+## v1.5
+
+#### changed
+
+- New icon.
+
 ## v1.4
 
 #### fixed
