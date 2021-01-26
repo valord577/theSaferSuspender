@@ -7,9 +7,8 @@
 
   "name": "The Safer Suspender",
   "description": "Release browser resources by suspending the tabs you aren't using",
-  "version": "1.2",
+  "version": "1.3",
   "icons": {
-    "48": "icons/ic_suspender_707070_48x48.png",
     "128": "icons/ic_suspender_707070_128x128.png"
   },
   "homepage_url": "https://github.com/valord577/theSaferSuspender",
@@ -32,7 +31,6 @@
 
   "browser_action": {
     "default_icon": {
-      "48": "icons/ic_suspender_707070_48x48.png",
       "128": "icons/ic_suspender_707070_128x128.png"
     },
     "default_title": "The Safer Suspender",

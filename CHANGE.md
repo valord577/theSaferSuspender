@@ -2,6 +2,12 @@
 
 All notable changes for **Edge** are documented in this file.
 
+## v1.3
+
+#### changed
+
+- new icon.
+
 ## v1.2
 
 #### fixed
