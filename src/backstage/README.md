@@ -7,9 +7,18 @@ Definitions
 
 ```json5
 {
-    "index": 5,  // the index for the "<select>...</select>" of "popup.html"
-    "mins": 45,  // do suspend after 45 mins
+    "index": 5,
+    "mins": "45",  // do suspend after 45 mins
     "rules": [],  // pass list
+    
+    "ctlIndex": 0,
+    "ctlKey": "0",  // keycode - `Ctrl` or `Command`
+    
+    "sftIndex": 0,
+    "sftKey": "0",  // keycode - `Shift`
+    
+    "cusIndex": 0,
+    "cusKey": "Space",  // custom keycode  
 }
 ```
 

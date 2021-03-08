@@ -7,6 +7,10 @@ let rules = document.getElementById('rules');
 let testRules = document.getElementById('testRules');
 let testResult = document.getElementById('testResult');
 
+let ctlKey = document.getElementById('ctlKey');
+let sftKey = document.getElementById('sftKey');
+let cusKey = document.getElementById('cusKey');
+
 document.addEventListener('DOMContentLoaded', () => {
 
     chrome.storage.sync.get((value) => {
@@ -22,6 +26,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         timeSelect.selectedIndex = _index;
         rules.value = _rules.join('\n');
+
+        // keycode
+        let _ctlIndex = 0;
+        let _sftIndex = 0;
+        let _cusIndex = 0;
+
+        if (value.ctlIndex >= 0) {
+            _ctlIndex = value.ctlIndex;
+        }
+        if (value.sftIndex >= 0) {
+            _sftIndex = value.sftIndex;
+        }
+        if (value.cusIndex >= 0) {
+            _cusIndex = value.cusIndex;
+        }
+
+        ctlKey.selectedIndex = _ctlIndex;
+        sftKey.selectedIndex = _sftIndex;
+        cusKey.selectedIndex = _cusIndex;
     });
 });
 
@@ -32,6 +55,36 @@ timeSelect.addEventListener('change', () => {
     chrome.storage.sync.set({
         index: _index,
         mins: _value,
+    });
+});
+
+ctlKey.addEventListener('change', () => {
+    let _index = ctlKey.selectedIndex;
+    let _value = ctlKey.options[_index].value;
+
+    chrome.storage.sync.set({
+        ctlIndex: _index,
+        ctlKey: _value,
+    });
+});
+
+sftKey.addEventListener('change', () => {
+    let _index = sftKey.selectedIndex;
+    let _value = sftKey.options[_index].value;
+
+    chrome.storage.sync.set({
+        sftIndex: _index,
+        sftKey: _value,
+    });
+});
+
+cusKey.addEventListener('change', () => {
+    let _index = cusKey.selectedIndex;
+    let _value = cusKey.options[_index].value;
+
+    chrome.storage.sync.set({
+        cusIndex: _index,
+        cusKey: _value,
     });
 });
 

@@ -2,6 +2,12 @@
 
 All notable changes for **Chrome** are documented in this file.
 
+## v1.4
+
+#### fixed
+
+- Shortcut will be triggered at the current tab.
+
 ## v1.3
 
 #### added

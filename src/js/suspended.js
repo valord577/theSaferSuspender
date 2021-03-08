@@ -8,7 +8,6 @@ let title = document.getElementById('title');
 let ttl = document.getElementById('ttl');
 let url = document.getElementById('url');
 let addOn = document.getElementById('addOn');
-let shortcut = document.getElementById('shortcut');
 
 let _ttl_limit = 64;
 let _url_limit = 128;
@@ -55,26 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
             url.innerText = _url;
         }
     });
-
-    // shortcut
-    chrome.commands.getAll((commands) => {
-        for (let _cmd of commands) {
-            if (!_cmd) {
-                continue;
-            }
-
-            let _name = _cmd.name;
-            if (_name !== 'restore-tab') {
-                continue;
-            }
-
-            let _shortcut = _cmd.shortcut;
-            if (_shortcut) {
-                shortcut.innerText = `Trigger "${_shortcut}" to restore this tab`;
-            }
-            break;
-        }
-    });
 });
 
 function getQueryVariable() {
@@ -101,10 +80,7 @@ function getQueryVariable() {
             continue;
         }
 
-        let key = pair.substring(0, pos);
-        let value = pair.substring(pos + 1);
-
-        params[key] = value;
+        params[pair.substring(0, pos)] = pair.substring(pos + 1);
     }
 
     return params;
@@ -120,13 +96,69 @@ addOn.addEventListener('click', () => {
 });
 
 // add the listener of shortcuts for restoring the suspended tab
-chrome.commands.onCommand.addListener((command) => {
-    switch (command) {
-        case 'restore-tab':
-            window.history.back();
-            break;
+document.addEventListener('keydown', (event) => {
+    console.log(event);
 
-        default:
-            break;
-    }
+    chrome.storage.sync.get((value) => {
+        console.log(value);
+
+        // keycode
+        let _ctlKey = "0";
+        let _sftKey = "0";
+        let _cusKey = "Space";
+
+        if (value['ctlKey'] && value['ctlKey'] !== "0") {
+            _ctlKey = value['ctlKey'];
+        }
+        if (value['sftKey'] && value['sftKey'] !== "0") {
+            _sftKey = value['sftKey'];
+        }
+        if (value['cusKey']) {
+            _cusKey = value['cusKey'];
+        }
+
+        console.log('ctlKey', _ctlKey);
+        console.log('sftKey', _sftKey);
+        console.log('cusKey', _cusKey);
+
+        let step = 0;
+
+        // step 1 - check `Ctrl` or `Command`
+        if (_ctlKey === "0") {
+            step++;
+        } else if (_ctlKey === "1") {
+            if (event.ctrlKey) {
+                step++;
+            }
+        } else if (_ctlKey === "2") {
+            if (event.metaKey) {
+                step++;
+            }
+        }
+
+        console.log(step);
+
+        // step 2 - check `Shift`
+        if (_sftKey === "0") {
+            step++;
+        } else if (_sftKey === "1") {
+            if (event.shiftKey) {
+                step++;
+            }
+        }
+
+        console.log(step);
+
+        // step 3 - check custom keycode
+        if (_cusKey === event.code) {
+            step++;
+        }
+
+        console.log(step);
+
+        // go back
+        if (step === 3) {
+            url.click();
+        }
+    });
 });
