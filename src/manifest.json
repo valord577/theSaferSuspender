@@ -35,12 +35,5 @@
     },
     "default_title": "The Safer Suspender",
     "default_popup": "popup.html"
-  },
-
-  "commands": {
-    "restore-tab": {
-      "description": "Restore the suspended tab.",
-      "suggested_key": { "default": "Ctrl+Shift+S" }
-    }
   }
 }
