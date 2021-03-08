@@ -8,6 +8,7 @@ let title = document.getElementById('title');
 let ttl = document.getElementById('ttl');
 let url = document.getElementById('url');
 let addOn = document.getElementById('addOn');
+let shortcut = document.getElementById('shortcut');
 
 let _ttl_limit = 64;
 let _url_limit = 128;
@@ -54,6 +55,26 @@ document.addEventListener('DOMContentLoaded', () => {
             url.innerText = _url;
         }
     });
+
+    // shortcut
+    chrome.commands.getAll((commands) => {
+        for (let _cmd of commands) {
+            if (!_cmd) {
+                continue;
+            }
+
+            let _name = _cmd.name;
+            if (_name !== 'restore-tab') {
+                continue;
+            }
+
+            let _shortcut = _cmd.shortcut;
+            if (_shortcut) {
+                shortcut.innerText = `Trigger "${_shortcut}" to restore this tab`;
+            }
+            break;
+        }
+    });
 });
 
 function getQueryVariable() {
@@ -96,4 +117,16 @@ url.addEventListener('click', () => {
 addOn.addEventListener('click', () => {
     let manifest = chrome.runtime.getManifest();
     window.open(manifest.homepage_url, '_blank');
+});
+
+// add the listener of shortcuts for restoring the suspended tab
+chrome.commands.onCommand.addListener((command) => {
+    switch (command) {
+        case 'restore-tab':
+            window.history.back();
+            break;
+
+        default:
+            break;
+    }
 });

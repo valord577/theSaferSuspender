@@ -2,6 +2,12 @@
 
 All notable changes for **Chrome** are documented in this file.
 
+## v1.3
+
+#### added
+
+- Add shortcut for restoring the suspended tab(s).
+
 ## v1.2
 
 #### changed
