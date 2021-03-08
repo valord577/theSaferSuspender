@@ -2,6 +2,12 @@
 
 All notable changes for **Edge** are documented in this file.
 
+## v1.4
+
+#### added
+
+- Add shortcut for restoring the suspended tab(s).
+
 ## v1.3
 
 #### changed
