@@ -80,10 +80,7 @@ function getQueryVariable() {
             continue;
         }
 
-        let key = pair.substring(0, pos);
-        let value = pair.substring(pos + 1);
-
-        params[key] = value;
+        params[pair.substring(0, pos)] = pair.substring(pos + 1);
     }
 
     return params;
@@ -96,4 +93,72 @@ url.addEventListener('click', () => {
 addOn.addEventListener('click', () => {
     let manifest = browser.runtime.getManifest();
     window.open(manifest.homepage_url, '_blank');
+});
+
+// add the listener of shortcuts for restoring the suspended tab
+document.addEventListener('keydown', (event) => {
+    console.log(event);
+
+    browser.storage.sync.get((value) => {
+        console.log(value);
+
+        // keycode
+        let _ctlKey = "0";
+        let _sftKey = "0";
+        let _cusKey = "Space";
+
+        if (value['ctlKey'] && value['ctlKey'] !== "0") {
+            _ctlKey = value['ctlKey'];
+        }
+        if (value['sftKey'] && value['sftKey'] !== "0") {
+            _sftKey = value['sftKey'];
+        }
+        if (value['cusKey']) {
+            _cusKey = value['cusKey'];
+        }
+
+        console.log('ctlKey', _ctlKey);
+        console.log('sftKey', _sftKey);
+        console.log('cusKey', _cusKey);
+
+        let step = 0;
+
+        // step 1 - check `Ctrl` or `Command`
+        if (_ctlKey === "0") {
+            step++;
+        } else if (_ctlKey === "1") {
+            if (event.ctrlKey) {
+                step++;
+            }
+        } else if (_ctlKey === "2") {
+            if (event.metaKey) {
+                step++;
+            }
+        }
+
+        console.log(step);
+
+        // step 2 - check `Shift`
+        if (_sftKey === "0") {
+            step++;
+        } else if (_sftKey === "1") {
+            if (event.shiftKey) {
+                step++;
+            }
+        }
+
+        console.log(step);
+
+        // step 3 - check custom keycode
+        if (_cusKey === event.code) {
+            step++;
+        }
+
+        console.log(step);
+
+        // go back
+        if (step === 3) {
+            url.click();
+        }
+    });
 });
