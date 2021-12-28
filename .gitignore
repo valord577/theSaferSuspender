@@ -1,6 +1,6 @@
 ### Darwin files
 .DS_Store
 
-### IDE files
+### IDE/Editor files
 .idea
-
+.vscode

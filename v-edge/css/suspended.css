@@ -1,0 +1,18 @@
+body {
+  font-family: 'system-ui', 'sans-serif';
+}
+
+#url {
+  color: #409eff;
+}
+#url:hover {
+  cursor: pointer;
+  border-bottom: 1px solid #409eff;
+}
+
+#addOn {
+  border-bottom: 1px solid;
+}
+#addOn:hover {
+  cursor: pointer;
+}
