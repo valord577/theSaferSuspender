@@ -2,6 +2,12 @@
 
 All notable changes for **Firefox** are documented in this file.
 
+## v1.7
+
+#### changed
+
+- Reset the timer when the tab is activated.
+
 ## v1.6
 
 #### added

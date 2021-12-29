@@ -5,7 +5,7 @@
 // check whether the URL matched regular
 function checkRegExp(url, rule) {
     try {
-        let reg = new RegExp(rule);
+        let reg = new RegExp(rule.slice(1, -1));
         return reg.test(url);
     } catch (e) {
         return false;

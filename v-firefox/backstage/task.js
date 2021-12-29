@@ -11,25 +11,23 @@ browser.tabs.query({
     // create alarm
     browser.storage.sync.get().then((value) => {
         for (let tab of tabs) {
-            setAlarm(tab, value.mins);
+            setAlarm(tab.id, value['mins']);
         }
     });
 });
 
-function setAlarm(tab, mins) {
+function setAlarm(tabId, mins) {
     // exclude `browser.tabs.TAB_ID_NONE`
-    if (!tab.id || tab.id < 0) {
-        return;
-    }
+    if (tabId > 0) {
+        // default - do suspend after 45 mins
+        let _mins = Number(mins);
+        if (!_mins) {
+            _mins = 45;
+        }
 
-    // default - do suspend after 45 mins
-    let _mins = Number(mins);
-    if (!_mins) {
-        _mins = 45;
+        // use tab.id as alarm's name
+        browser.alarms.create(`${tabId}`, {delayInMinutes: _mins});
     }
-
-    // use tab.id as alarm's name
-    browser.alarms.create(`${tab.id}`, {delayInMinutes: _mins});
 }
 
 /* -- alarm's action ---------------------------------------- */
@@ -38,19 +36,14 @@ function setAlarm(tab, mins) {
 browser.alarms.onAlarm.addListener(doSuspend);
 
 function doSuspend(alarm) {
-    if (!alarm.name) {
-        // no tab.id
-        return;
-    }
-    let tabId = Number(alarm.name);
+    if (!alarm || !alarm.name) {return;}
 
+    let tabId = Number(alarm.name);
     browser.tabs.get(tabId).then((tab) => {
-        if (!tab) {
-            return;
-        }
+        if (!tab) {return;}
         // reset alarm
         browser.storage.sync.get().then((value => {
-            setAlarm(tab, value.mins);
+            setAlarm(tabId, value.mins);
         }));
 
         if (tab.highlighted) {
@@ -80,7 +73,7 @@ function doSuspend(alarm) {
                 // check pass rules
                 if (value.rules) {
                     for (let rule of value.rules) {
-                        let res = checkRegExp(tab.url, rule.substring(1, rule.length - 1));
+                        let res = checkRegExp(tab.url, rule);
                         if (res) {
                             // hit pass rule
                             skip = true;
@@ -116,16 +109,36 @@ function doSuspend(alarm) {
     });
 }
 
+// check whether the URL matched regular
+function checkRegExp(url, rule) {
+    try {
+        let reg = new RegExp(rule.slice(1, -1));
+        return reg.test(url);
+    } catch (e) {
+        return false;
+    }
+}
+
 /* -- manage alarm(s) --------------------------------------- */
 
 browser.tabs.onCreated.addListener((tab) => {
     // create alarm
     browser.storage.sync.get().then((value => {
-        setAlarm(tab, value.mins);
+        setAlarm(tab.id, value['mins'])
     }));
 });
 
 browser.tabs.onRemoved.addListener((tabId, removeInfo) => {
     // remove alarm
     browser.alarms.clear(`${tabId}`);
+});
+
+browser.tabs.onActivated.addListener((activeInfo) => {
+    // reset alarm
+    browser.storage.sync.get().then((value) => {
+        let tabId = activeInfo.tabId
+        browser.alarms.clear(`${tabId}`).then((wasCleared) => {
+            setAlarm(tabId, value['mins'])
+        });
+    });
 });

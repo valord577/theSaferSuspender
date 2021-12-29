@@ -12,7 +12,7 @@
 
   "name": "The Safer Suspender",
   "description": "Release browser resources by suspending the tabs you aren't using",
-  "version": "1.6",
+  "version": "1.7",
   "icons": {
     "128": "icons/ic_suspender_707070_128x128.svg"
   },
@@ -27,12 +27,9 @@
 
   "background": {
       "scripts": [
-        "utils/utils.js",
         "backstage/task.js"
       ]
   },
-
-  "web_accessible_resources": ["suspended.html"],
 
   "browser_action": {
     "browser_style": false,

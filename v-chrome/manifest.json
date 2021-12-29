@@ -1,13 +1,13 @@
 {
   "manifest_version": 2,
 
-  "minimum_chrome_version": "79.0",
+  "minimum_chrome_version": "88.0",
 
   "author": "valord577",
 
   "name": "The Safer Suspender",
   "description": "Release browser resources by suspending the tabs you aren't using",
-  "version": "1.4",
+  "version": "1.5",
   "icons": {
     "128": "icons/ic_suspender_707070_128x128.png"
   },
@@ -21,13 +21,8 @@
   ],
 
   "background": {
-      "scripts": [
-        "utils/utils.js",
-        "backstage/task.js"
-      ]
+    "service_worker": "backstage/task.js"
   },
-
-  "web_accessible_resources": ["suspended.html"],
 
   "browser_action": {
     "default_icon": {
@@ -36,5 +31,4 @@
     "default_title": "The Safer Suspender",
     "default_popup": "popup.html"
   }
-
 }

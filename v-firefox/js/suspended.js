@@ -97,11 +97,7 @@ addOn.addEventListener('click', () => {
 
 // add the listener of shortcuts for restoring the suspended tab
 document.addEventListener('keydown', (event) => {
-    console.log(event);
-
     browser.storage.sync.get((value) => {
-        console.log(value);
-
         // keycode
         let _ctlKey = "0";
         let _sftKey = "0";
@@ -116,10 +112,6 @@ document.addEventListener('keydown', (event) => {
         if (value['cusKey']) {
             _cusKey = value['cusKey'];
         }
-
-        console.log('ctlKey', _ctlKey);
-        console.log('sftKey', _sftKey);
-        console.log('cusKey', _cusKey);
 
         let step = 0;
 
@@ -136,8 +128,6 @@ document.addEventListener('keydown', (event) => {
             }
         }
 
-        console.log(step);
-
         // step 2 - check `Shift`
         if (_sftKey === "0") {
             step++;
@@ -147,14 +137,10 @@ document.addEventListener('keydown', (event) => {
             }
         }
 
-        console.log(step);
-
         // step 3 - check custom keycode
         if (_cusKey === event.code) {
             step++;
         }
-
-        console.log(step);
 
         // go back
         if (step === 3) {
