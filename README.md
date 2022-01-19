@@ -30,7 +30,7 @@ See the [LICENSE](LICENSE) for Rights and Limitations (GPLv3).
 
 
 [v-firefox]: v-firefox
-[Firefox Add-ons]: https://addons.mozilla.org/en-US/firefox/addon/the-safer-suspender/
+[Firefox Add-ons]: https://addons.mozilla.org/firefox/addon/the-safer-suspender/
 [Firefox Changes]: v-firefox/CHANGE.md
 
 [v-edge]: v-edge
